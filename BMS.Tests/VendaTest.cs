@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using System.Linq;
 using BMS.Domain.Entities;
 using BMS.Domain.Enums;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
@@ -24,7 +25,7 @@ namespace BMS.Tests
 
         public VendaTest()
         {
-            _novaVenda = new Venda(_usuario);
+            _novaVenda = new Venda(_usuario.Login);
 
             _vi1 = new VendaItem(_p1, 10);
             _vi2 = new VendaItem(_p2, 10);
@@ -74,27 +75,9 @@ namespace BMS.Tests
             _novaVenda.AdicionaPagamento(new VendaPagamento(1500, EPagamentoTipo.Dinheiro));
             _novaVenda.AdicionaPagamento(new VendaPagamento(1050, EPagamentoTipo.Cartao));
 
-            _novaVenda.RealizaVenda();
+            _novaVenda.RealizarVenda();
 
             Assert.AreEqual(EVendaStatus.Realizada, _novaVenda.Status);
-        }
-
-        [TestMethod]
-        public void NaoRealizaVendaPassandoPagamentoComValorErrado()
-        {
-            _novaVenda.AdicionaItemAoCarrinho(_vi1);
-            _novaVenda.AdicionaItemAoCarrinho(_vi2);
-            _novaVenda.AdicionaItemAoCarrinho(_vi3);
-            _novaVenda.AdicionaItemAoCarrinho(_vi4);
-            _novaVenda.AdicionaItemAoCarrinho(_vi5);
-
-            _novaVenda.CalculaTotal();
-            _novaVenda.AdicionaPagamento(new VendaPagamento(1500, EPagamentoTipo.Dinheiro));
-            _novaVenda.AdicionaPagamento(new VendaPagamento(1000, EPagamentoTipo.Cartao));
-
-            _novaVenda.RealizaVenda();
-
-            Assert.AreEqual(null, _novaVenda.Status); //adicionar validação para que
         }
     }
 }

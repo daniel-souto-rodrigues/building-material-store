@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using BMS.Domain.Enums;
 
 namespace BMS.Domain.Entities
@@ -13,7 +14,7 @@ namespace BMS.Domain.Entities
         {
         }
 
-        public Venda(Usuario usuario)
+        public Venda(string usuario)
         {
             Desconto = 0;
             DataDaVenda = DateTime.Now;
@@ -25,7 +26,7 @@ namespace BMS.Domain.Entities
         public decimal Total { get; private set; }
         public decimal Desconto { get; private set; }
         public DateTime DataDaVenda { get; private set; }
-        public Usuario Usuario { get; private set; }
+        public string Usuario { get; private set; }
         public EVendaStatus Status { get; private set; }
         public IList<VendaItem> Itens { get; private set; }
         public IList<VendaPagamento> Pagamentos { get; private set; }
@@ -42,6 +43,7 @@ namespace BMS.Domain.Entities
 
         public void ConcederDesconto(decimal desconto)
         {
+            this.CalculaTotal();
             Desconto = desconto;
         }
 
@@ -50,20 +52,27 @@ namespace BMS.Domain.Entities
             Pagamentos.Add(pagamento);
         }
 
-        public void RealizaVenda()
+        public bool RealizarVenda()
         {
             decimal soma = 0;
             foreach (VendaPagamento pagamento in Pagamentos)
-            {
                 soma += pagamento.Valor;
-            }
+
+            CalculaTotal();
 
             if (soma >= Total)
+            {
                 Status = EVendaStatus.Realizada;
+                return true;
+            }
+            return false;
         }
 
         public void CancelaVenda()
         {
+            if (Pagamentos.Count != 0)
+                Pagamentos.Clear();
+
             Status = EVendaStatus.Cancelada;
         }
 
@@ -71,13 +80,18 @@ namespace BMS.Domain.Entities
         {
             decimal soma = 0;
             foreach (VendaItem item in Itens)
-            {
                 soma += item.Valor;
-            }
 
             Total = soma - Desconto;
         }
 
+        public List<VendaItem> ListaItens()
+        {
+            if (!Itens.Any())
+                return null;
+            else
+                return Itens.ToList();
+        }
 
     }
 }
