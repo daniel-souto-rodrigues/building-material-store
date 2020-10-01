@@ -22,19 +22,31 @@ namespace BMS.Tests.Repositories
         {
         }
 
-        public Produto ProcuraProdutoPorCodigo(string codigo)
+        public Produto ProcuraProdutoPorCodigo(Guid id, string codigo)
         {
             return null;
         }
-        
-        public bool VerificaSeUsuarioExiste(string login)
+
+        public bool VerificaSeUsuarioExiste(Guid id, string login)
         {
             return true;
         }
 
-        public string ProcuraUsuarioPorCodigo(string login)
+        public Usuario ProcuraUsuarioPorCodigo(Guid id, string login)
         {
-            return "daniel";
+            return new Usuario(null, null);
+        }
+
+        public void Atualiza(Venda venda)
+        {
+        }
+
+        public void Atualiza(Usuario usuario)
+        {
+        }
+
+        public void Atualiza(Produto produto)
+        {
         }
     }
 }

@@ -3,6 +3,11 @@
   <ItemGroup>
     <ProjectReference Include="..\BMS.Domain\BMS.Domain.csproj" />
     <ProjectReference Include="..\BMS.Shared\BMS.Shared.csproj" />
+    <ProjectReference Include="..\BMS.Infra\BMS.Infra.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Microsoft.EntityFrameworkCore.InMemory" Version="3.1.8" />
   </ItemGroup>
 
   <PropertyGroup>

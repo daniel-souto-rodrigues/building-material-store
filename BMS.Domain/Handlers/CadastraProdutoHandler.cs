@@ -3,14 +3,16 @@ using BMS.Domain.Entities;
 using BMS.Domain.Repositories.Interfaces;
 using BMS.Shared.Commands;
 using BMS.Shared.Commands.Contracts;
+using BMS.Shared.Entities;
+using BMS.Shared.Handlers.Contracts;
 
 namespace BMS.Domain.Handlers
 {
-    public class CriaProdutoHandler
+    public class CadastraProdutoHandler : Notificavel, IHandler<CadastraProdutoCommand>
     {
         private readonly IRepository _repository;
 
-        public CriaProdutoHandler(IRepository repository)
+        public CadastraProdutoHandler(IRepository repository)
         {
             _repository = repository;
         }

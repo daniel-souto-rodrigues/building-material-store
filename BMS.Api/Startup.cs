@@ -1,15 +1,15 @@
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
+using BMS.Domain.Commands;
+using BMS.Domain.Handlers;
+using BMS.Domain.Repositories.Interfaces;
+using BMS.Infra.Contexts;
+using BMS.Infra.Repositories;
+using BMS.Shared.Handlers.Contracts;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
-using Microsoft.AspNetCore.HttpsPolicy;
-using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
-using Microsoft.Extensions.Logging;
 
 namespace BMS.Api
 {
@@ -22,13 +22,18 @@ namespace BMS.Api
 
         public IConfiguration Configuration { get; }
 
-        // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddControllers();
+
+            services.AddDbContext<DataContext>(opt => opt.UseInMemoryDatabase("Database"));
+
+            services.AddTransient<IRepository, Repository>();
+            services.AddTransient<IHandler<CadastraProdutoCommand>, CadastraProdutoHandler>();
+            services.AddTransient<IHandler<CriaUsuarioCommand>, CriaUsuarioHandler>();
+            services.AddTransient<IHandler<GeraVendaCommand>, GeraVendaHandler>();
         }
 
-        // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
         {
             if (env.IsDevelopment())
