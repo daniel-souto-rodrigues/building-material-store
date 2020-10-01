@@ -1,12 +1,17 @@
+using BMS.Domain.Commands;
 using BMS.Domain.Entities;
+using BMS.Domain.Handlers;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 
-namespace BMS.Tests
+namespace BMS.Tests.CommandTests
 {
     [TestClass]
     public class GeraVendaCommandTests
     {
         private readonly Usuario _usuario = new Usuario("Daniel", "123456");
+        private readonly Usuario _usuarioInvalido = new Usuario(null, "");
+        private readonly GeraVendaCommand _vendaCommand;
+
         private Venda _novaVenda = new Venda();
         private readonly Produto _p1 = new Produto("Martelo de aço", "78921423311", "alguma desc...", 10.0m, 15.0m);
         private readonly Produto _p2 = new Produto("Furadeira", "78921423312", "alguma desc...", 100.0m, 200.0m);
@@ -22,7 +27,7 @@ namespace BMS.Tests
 
         public GeraVendaCommandTests()
         {
-            _novaVenda = new Venda(_usuario.Login);
+            _vendaCommand = new GeraVendaCommand(_usuario.Login);
 
             _vi1 = new VendaItem(_p1, 10);
             _vi2 = new VendaItem(_p2, 10);
@@ -32,10 +37,30 @@ namespace BMS.Tests
         }
 
         [TestMethod]
-        public void c()
+        public void DeveRetornarSucessoAoGerarUmCommandComUsuario()
         {
-            Assert.Fail();
-        }   
-   
+            _vendaCommand.Itens.Add(_vi1);
+            _vendaCommand.Itens.Add(_vi2);
+            _vendaCommand.Itens.Add(_vi3);
+            _vendaCommand.Itens.Add(_vi4);
+            _vendaCommand.Itens.Add(_vi5);
+
+            Assert.AreEqual(true, _vendaCommand.Validate());
+        }
+
+        [TestMethod]
+        public void DeveRetornarErroAoGerarUmCommandSemUsuario()
+        {
+            _vendaCommand.Itens.Add(_vi1);
+            _vendaCommand.Itens.Add(_vi2);
+            _vendaCommand.Itens.Add(_vi3);
+            _vendaCommand.Itens.Add(_vi4);
+            _vendaCommand.Itens.Add(_vi5);
+
+            _vendaCommand.Usuario = _usuarioInvalido.Login;
+
+            Assert.AreEqual(false, _vendaCommand.Validate());
+        }
+
     }
 }

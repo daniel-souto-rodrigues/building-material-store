@@ -4,7 +4,7 @@ using BMS.Domain.Entities;
 using BMS.Domain.Enums;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 
-namespace BMS.Tests
+namespace BMS.Tests.EntitiesTests
 {
     [TestClass]
     public class VendaTest

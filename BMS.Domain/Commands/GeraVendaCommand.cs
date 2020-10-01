@@ -1,4 +1,3 @@
-using System;
 using System.Collections.Generic;
 using System.Linq;
 using BMS.Domain.Entities;
@@ -12,17 +11,14 @@ namespace BMS.Domain.Commands
         private readonly IList<VendaItem> _itens = new List<VendaItem>();
         private readonly IList<VendaPagamento> _pagamentos = new List<VendaPagamento>();
         public GeraVendaCommand() { }
-        public GeraVendaCommand(Guid id, string usuario, decimal desconto)
+        public GeraVendaCommand(string usuario)
         {
-            Id = id;
             Usuario = usuario;
             Itens = _itens;
             Pagamentos = _pagamentos;
             Total = 0;
-            Desconto = desconto;
+            Desconto = 0;
         }
-
-        public Guid Id { get; set; }
         public string Usuario { get; set; }
         public IList<VendaItem> Itens { get; set; }
         public IList<VendaPagamento> Pagamentos { get; set; }
