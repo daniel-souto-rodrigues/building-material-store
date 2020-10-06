@@ -25,7 +25,7 @@ namespace BMS.Tests.EntitiesTests
 
         public VendaTest()
         {
-            _novaVenda = new Venda(_usuario.Login);
+            _novaVenda = new Venda(_usuario);
 
             _vi1 = new VendaItem(_p1, 10);
             _vi2 = new VendaItem(_p2, 10);

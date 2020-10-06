@@ -1,4 +1,5 @@
 using System;
+using System.Collections.Generic;
 using BMS.Domain.Entities;
 
 namespace BMS.Domain.Repositories.Interfaces
@@ -11,8 +12,9 @@ namespace BMS.Domain.Repositories.Interfaces
         void Atualiza(Usuario usuario);
         void Cria(Produto produto);
         void Atualiza(Produto produto);
-        Produto ProcuraProdutoPorCodigo(Guid id, string codigo);
-        Usuario ProcuraUsuarioPorCodigo(Guid id ,string login);
-        bool VerificaSeUsuarioExiste(Guid id, string login);
+        Produto ProcuraProdutoPorCodigo(string codigo);
+        Usuario ProcuraUsuarioPorCodigo(string login);
+        bool VerificaSeUsuarioExiste(string login);
+        List<Usuario> RetornaTodosUsuarios();
     }
 }

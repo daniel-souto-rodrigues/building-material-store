@@ -23,12 +23,14 @@ namespace BMS.Domain.Handlers
             if(!command.Validate())
                 return new GenericCommandResult(false, "ops, parece que ocorreu algum erro", command.Notificacoes);
 
-            //verifica pelo código se o produto já existe no banco 
-            //-------------- implementar --------------------
 
             //gera um produto
             var produto = new Produto(command.Nome, command.Codigo, command.Descricao, command.PrecoCusto, command.PrecoVenda);
 
+            //verifica pelo código se o produto já existe no banco 
+            if(_repository.ProcuraProdutoPorCodigo(produto.Codigo) != null)
+                return new GenericCommandResult(false, "Ops, o produto já existe na base de dados", command.Notificacoes);
+            
             //salva no banco
             _repository.Cria(produto);
 

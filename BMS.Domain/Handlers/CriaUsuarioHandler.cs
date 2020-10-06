@@ -25,8 +25,8 @@ namespace BMS.Domain.Handlers
             //passa o usuario
             var usuario = new Usuario(command.Login, command.Senha);
 
-            //valida se já existe o login no banco ***falta implementar
-            if(!_repository.VerificaSeUsuarioExiste(usuario.Id, command.Login))
+            //valida se já existe o login no banco
+            if(_repository.VerificaSeUsuarioExiste(command.Login))
                 return new GenericCommandResult(false, "O usuario já tem cadastro na base", command.Notificacoes);
 
             //salva o usuario

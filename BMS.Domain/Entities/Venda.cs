@@ -14,7 +14,7 @@ namespace BMS.Domain.Entities
         {
         }
 
-        public Venda(string usuario)
+        public Venda(Usuario usuario)
         {
             Desconto = 0;
             DataDaVenda = DateTime.Now;
@@ -26,7 +26,7 @@ namespace BMS.Domain.Entities
         public decimal Total { get; private set; }
         public decimal Desconto { get; private set; }
         public DateTime DataDaVenda { get; private set; }
-        public string Usuario { get; private set; }
+        public Usuario Usuario { get; private set; }
         public EVendaStatus Status { get; private set; }
         public IList<VendaItem> Itens { get; private set; }
         public IList<VendaPagamento> Pagamentos { get; private set; }

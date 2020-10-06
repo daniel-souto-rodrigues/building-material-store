@@ -1,4 +1,5 @@
 using System;
+using System.Collections.Generic;
 using BMS.Domain.Entities;
 using BMS.Domain.Repositories.Interfaces;
 
@@ -22,17 +23,17 @@ namespace BMS.Tests.Repositories
         {
         }
 
-        public Produto ProcuraProdutoPorCodigo(Guid id, string codigo)
+        public Produto ProcuraProdutoPorCodigo(string codigo)
         {
             return null;
         }
 
-        public bool VerificaSeUsuarioExiste(Guid id, string login)
+        public bool VerificaSeUsuarioExiste(string login)
         {
             return true;
         }
 
-        public Usuario ProcuraUsuarioPorCodigo(Guid id, string login)
+        public Usuario ProcuraUsuarioPorCodigo(string login)
         {
             return new Usuario(null, null);
         }
@@ -47,6 +48,11 @@ namespace BMS.Tests.Repositories
 
         public void Atualiza(Produto produto)
         {
+        }
+
+        public List<Usuario> RetornaTodosUsuarios()
+        {
+            throw new NotImplementedException();
         }
     }
 }

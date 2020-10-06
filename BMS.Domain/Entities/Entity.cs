@@ -4,7 +4,7 @@ namespace BMS.Domain.Entities
 {
     public abstract class Entity : IEquatable<Entity>
     {
-        public Guid Id { get; private set; }
+        public Guid Id { get; set; }
         public Entity()
         {
             Id = Guid.NewGuid();

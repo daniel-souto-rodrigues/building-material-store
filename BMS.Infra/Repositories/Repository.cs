@@ -1,6 +1,8 @@
 using System;
+using System.Collections.Generic;
 using System.Linq;
 using BMS.Domain.Entities;
+using BMS.Domain.Queries;
 using BMS.Domain.Repositories.Interfaces;
 using BMS.Infra.Contexts;
 using Microsoft.EntityFrameworkCore;
@@ -51,22 +53,25 @@ namespace BMS.Infra.Repositories
             _context.SaveChanges();
         }
 
-        public Produto ProcuraProdutoPorCodigo(Guid id, string codigo)
+        public Produto ProcuraProdutoPorCodigo(string codigo)
         {
-            //escrever a query pra isso
-            return _context.Produtos.AsNoTracking().FirstOrDefault(x => x.Id == id && x.Codigo == codigo);
+            return _context.Produtos.AsNoTracking().FirstOrDefault(ProdutoQueries.ProcuraProduto(codigo));
         }
 
-        public Usuario ProcuraUsuarioPorCodigo(Guid id, string login)
+        public Usuario ProcuraUsuarioPorCodigo(string login)
         {
-            //escrever a query pra isso
-            return _context.Usuarios.AsNoTracking().FirstOrDefault(x => x.Id == id && x.Login == login);
+            return _context.Usuarios.AsNoTracking().FirstOrDefault(UsuarioQueries.ProcuraUsuario(login));
         }
 
-        public bool VerificaSeUsuarioExiste(Guid id, string login)
+        public bool VerificaSeUsuarioExiste(string login)
         {
-            var resultado = _context.Usuarios.FirstOrDefault(x =>x.Id == id && x.Login == login);
-            return resultado == null;
+            var resultado = _context.Usuarios.FirstOrDefault(UsuarioQueries.ProcuraUsuario(login));
+            return resultado != null;
+        }
+
+        public List<Usuario> RetornaTodosUsuarios() //metodo teste
+        {
+            return _context.Usuarios.ToList();
         }
     }
 }

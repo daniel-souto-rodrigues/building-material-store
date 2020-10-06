@@ -9,7 +9,7 @@ namespace BMS.Tests.CommandTests
     public class GeraVendaCommandTests
     {
         private readonly Usuario _usuario = new Usuario("Daniel", "123456");
-        private readonly Usuario _usuarioInvalido = new Usuario(null, "");
+        private readonly Usuario _usuarioInvalido = new Usuario(null, null);
         private readonly GeraVendaCommand _vendaCommand;
 
         private Venda _novaVenda = new Venda();
@@ -27,7 +27,7 @@ namespace BMS.Tests.CommandTests
 
         public GeraVendaCommandTests()
         {
-            _vendaCommand = new GeraVendaCommand(_usuario.Login);
+            _vendaCommand = new GeraVendaCommand(_usuario);
 
             _vi1 = new VendaItem(_p1, 10);
             _vi2 = new VendaItem(_p2, 10);
@@ -57,7 +57,7 @@ namespace BMS.Tests.CommandTests
             _vendaCommand.Itens.Add(_vi4);
             _vendaCommand.Itens.Add(_vi5);
 
-            _vendaCommand.Usuario = _usuarioInvalido.Login;
+            _vendaCommand.Usuario = _usuarioInvalido;
 
             Assert.AreEqual(false, _vendaCommand.Validate());
         }

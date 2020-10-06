@@ -27,8 +27,8 @@ namespace BMS.Domain.Commands
         {
             if (Nome == null)
                 AdicionarNotificacao("NomeProd", "O campo nome é obrigatório");
-            if (Nome.Length < 3 || Nome.Length > 60)
-                AdicionarNotificacao("NomeProd", "O nome do produto deve ter entre 3 e 60 caracteres");
+            if (Nome.Length < 3 || Nome.Length > 80)
+                AdicionarNotificacao("NomeProd", "O nome do produto deve ter entre 3 e 80 caracteres");
             if (Codigo == null)
                 AdicionarNotificacao("Codigo", "O campo código é obrigatório");
             if (Codigo.Length <= 24)
