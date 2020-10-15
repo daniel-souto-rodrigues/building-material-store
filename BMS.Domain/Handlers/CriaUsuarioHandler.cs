@@ -33,7 +33,7 @@ namespace BMS.Domain.Handlers
             _repository.Cria(usuario);
 
             //retorna sucesso
-            return new GenericCommandResult(true, "usuario cadastrado com sucesso", command.Notificacoes);
+            return new GenericCommandResult(true, "usuario cadastrado com sucesso", command);
         }
     }
 }

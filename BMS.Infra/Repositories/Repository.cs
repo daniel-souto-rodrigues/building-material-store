@@ -12,6 +12,7 @@ namespace BMS.Infra.Repositories
     public class Repository : IRepository
     {
         private readonly DataContext _context;
+
         public Repository(DataContext context)
         {
             _context = context;
@@ -31,7 +32,7 @@ namespace BMS.Infra.Repositories
 
         public void Atualiza(Produto produto)
         {
-            _context.Entry(produto).State = EntityState.Modified;
+            _context.Entry<Produto>(produto).State = EntityState.Modified;
             _context.SaveChanges();
         }
 
@@ -47,18 +48,32 @@ namespace BMS.Infra.Repositories
             _context.SaveChanges();
         }
 
+        public void DeletaUsuario(string login)
+        {
+            var usuario = ProcuraUsuarioPorLogin(login);
+            _context.Remove(usuario);
+            _context.SaveChanges();
+        }
+
+        public void DeletaProduto(long codigo)
+        {
+            var produto = ProcuraProdutoPorCodigo(codigo);
+            _context.Remove(produto);
+            _context.SaveChanges();
+        }
+
         public void Cria(Produto produto)
         {
             _context.Add(produto);
             _context.SaveChanges();
         }
 
-        public Produto ProcuraProdutoPorCodigo(string codigo)
+        public Produto ProcuraProdutoPorCodigo(long codigo)
         {
             return _context.Produtos.AsNoTracking().FirstOrDefault(ProdutoQueries.ProcuraProduto(codigo));
         }
 
-        public Usuario ProcuraUsuarioPorCodigo(string login)
+        public Usuario ProcuraUsuarioPorLogin(string login)
         {
             return _context.Usuarios.AsNoTracking().FirstOrDefault(UsuarioQueries.ProcuraUsuario(login));
         }
@@ -69,9 +84,14 @@ namespace BMS.Infra.Repositories
             return resultado != null;
         }
 
-        public List<Usuario> RetornaTodosUsuarios() //metodo teste
+        public IEnumerable<Usuario> RetornaTodosUsuarios() //test method
         {
-            return _context.Usuarios.ToList();
+            return _context.Usuarios;
+        }
+
+        public IEnumerable<Produto> RetornaTodosProdutos() //test method
+        {
+            return _context.Produtos;
         }
     }
 }

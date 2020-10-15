@@ -26,7 +26,7 @@ namespace BMS.Api
         {
             services.AddControllers();
 
-            services.AddDbContext<DataContext>(opt => opt.UseInMemoryDatabase("Database"));
+            services.AddDbContext<DataContext>(opt => opt.UseSqlServer(Configuration.GetConnectionString("connectionString"), b => b.MigrationsAssembly("BMS.Api")));
 
             services.AddTransient<IRepository, Repository>();
             services.AddTransient<IHandler<CadastraProdutoCommand>, CadastraProdutoHandler>();

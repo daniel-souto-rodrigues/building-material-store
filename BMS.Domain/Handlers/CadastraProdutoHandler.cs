@@ -23,7 +23,6 @@ namespace BMS.Domain.Handlers
             if(!command.Validate())
                 return new GenericCommandResult(false, "ops, parece que ocorreu algum erro", command.Notificacoes);
 
-
             //gera um produto
             var produto = new Produto(command.Nome, command.Codigo, command.Descricao, command.PrecoCusto, command.PrecoVenda);
 
@@ -35,7 +34,7 @@ namespace BMS.Domain.Handlers
             _repository.Cria(produto);
 
             //retorno
-            return new GenericCommandResult(true, "Produto cadastrado com sucesso", command.Notificacoes);
+            return new GenericCommandResult(true, "Produto cadastrado com sucesso", command);
         }
     }
 }

@@ -7,7 +7,15 @@ namespace BMS.Tests.Repositories
 {
     public class FakeRepository : IRepository
     {
-        public void Cancela(Venda venda)
+        public void Atualiza(Venda venda)
+        {
+        }
+
+        public void Atualiza(Usuario usuario)
+        {
+        }
+
+        public void Atualiza(Produto produto)
         {
         }
 
@@ -23,36 +31,39 @@ namespace BMS.Tests.Repositories
         {
         }
 
-        public Produto ProcuraProdutoPorCodigo(string codigo)
+        public void DeletaProduto(long codigo)
+        {
+        }
+
+        public void DeletaUsuario(string login)
+        {
+        }
+
+        public Produto ProcuraProdutoPorCodigo(long codigo)
         {
             return null;
         }
 
+        public Usuario ProcuraUsuarioPorLogin(string login)
+        {
+             return null;
+        }
+
+        public IEnumerable<Produto> RetornaTodosProdutos()
+        {
+             return null;
+        }
+
+        public IEnumerable<Usuario> RetornaTodosUsuarios()
+        {
+             return null;
+        }
+
         public bool VerificaSeUsuarioExiste(string login)
         {
-            return true;
-        }
-
-        public Usuario ProcuraUsuarioPorCodigo(string login)
-        {
-            return new Usuario(null, null);
-        }
-
-        public void Atualiza(Venda venda)
-        {
-        }
-
-        public void Atualiza(Usuario usuario)
-        {
-        }
-
-        public void Atualiza(Produto produto)
-        {
-        }
-
-        public List<Usuario> RetornaTodosUsuarios()
-        {
-            throw new NotImplementedException();
+            if(login == "Daniel")
+                return true;
+            return false;
         }
     }
 }

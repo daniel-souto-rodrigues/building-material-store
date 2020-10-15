@@ -9,40 +9,36 @@ using Microsoft.AspNetCore.Mvc;
 namespace BMS.Api.Controllers
 {
     [ApiController]
-    [Route("v1/home")]
+    [Route("v1/user")]
     public class HomeController : ControllerBase
     {
         private readonly IHandler<CriaUsuarioCommand> _handler;
         private readonly IRepository _repository;
-        public HomeController(IHandler<CriaUsuarioCommand> handler, IRepository repository)
+
+        public HomeController(
+        IHandler<CriaUsuarioCommand> handler,
+        IRepository repository)
         {
             _handler = handler;
             _repository = repository;
         }
-        
+
         [HttpPost]
-        [Route("novousuario")]
+        [Route("newuser")]
         public GenericCommandResult CriaUsuario(
             [FromBody] CriaUsuarioCommand command
         )
         {
-            return (GenericCommandResult) _handler.Handle(command);
+            return (GenericCommandResult)_handler.Handle(command);
         }
 
+        /*  test method  */
         [Route("")]
         [HttpGet]
-        public List<Usuario> RetornaUsuarios()
+        public IEnumerable<Usuario> RetornaUsuarios()
         {
             return _repository.RetornaTodosUsuarios();
         }
-
-        // [Route("")]
-        // [HttpPost]
-        // public GenericCommandResult GeraVenda()
-        // {
-
-        // }
-
-
+        /* ------------- */
     }
 }

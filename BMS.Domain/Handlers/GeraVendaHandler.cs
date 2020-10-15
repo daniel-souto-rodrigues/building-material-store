@@ -50,7 +50,7 @@ namespace BMS.Domain.Handlers
 
             //salva venda e fecha
             _repository.Cria(venda);
-            return new GenericCommandResult(true, "venda realizada com sucesso", command.Notificacoes);
+            return new GenericCommandResult(true, "venda realizada com sucesso", command);
         }
     }
 }
