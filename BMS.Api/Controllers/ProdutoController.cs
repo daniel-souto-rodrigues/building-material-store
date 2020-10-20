@@ -25,26 +25,28 @@ namespace BMS.Api.Controllers
 
         [HttpPost]
         [Route("new")]
-        public GenericCommandResult CadastraProduto(
-            [FromBody] CadastraProdutoCommand command
-        )
+        public GenericCommandResult CadastraProduto([FromBody] CadastraProdutoCommand command)
         {
             return (GenericCommandResult)_handler.Handle(command);
         }
 
         [HttpGet]
         [Route("")]
-        public Produto ProcuraProduto([FromBody] int codigo)
+        public Produto ProcuraProduto([FromBody] string codigo)
         {
             return _repository.ProcuraProdutoPorCodigo(codigo);
         }
 
-        [HttpPut] 
-        [Route("{codigo:int}")]
-        public GenericCommandResult AtualizaProduto(int codigo, [FromBody] CadastraProdutoCommand command)
+        [HttpPut]
+        [Route("{codigo}")]
+        public GenericCommandResult AtualizaProduto(string codigo, [FromBody] CadastraProdutoCommand command)
         {
+            if (codigo != command.Codigo)
+                return new GenericCommandResult(false, "o código do produto a ser atualizado não está correto", command);
             if (_repository.ProcuraProdutoPorCodigo(codigo) == null)
                 return new GenericCommandResult(false, "o produto a ser atualizado não se encontra na base", command);
+            if (!command.Validate())
+                return new GenericCommandResult(false, "ops, parece que ocorreu algum erro", command.Notificacoes);
             else
             {
                 var produto = new Produto(command.Nome, command.Codigo, command.Descricao, command.PrecoCusto, command.PrecoVenda);
@@ -54,10 +56,16 @@ namespace BMS.Api.Controllers
         }
 
         [HttpDelete]
-        [Route("{codigo:int}")]
-        public GenericCommandResult DeletaProduto([FromRoute] int codigo)
+        [Route("{codigo}")]
+        public GenericCommandResult DeletaProduto([FromRoute] string codigo)
         {
             var produto = _repository.ProcuraProdutoPorCodigo(codigo);
+
+            if (produto == null)
+                return new GenericCommandResult(false, "produto nao encontrado na base", codigo);
+            if (produto.Deletado == true)
+                return new GenericCommandResult(false, "O produto já foi deletado anteriormente", produto);
+
             _repository.DeletaProduto(codigo);
             return new GenericCommandResult(true, "produto foi deletado com sucesso", produto);
         }

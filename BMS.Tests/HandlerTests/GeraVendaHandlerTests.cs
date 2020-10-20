@@ -36,7 +36,7 @@ namespace BMS.Tests.HandlerTests
         public void DadoUmaVendaSemPagamentoRetornaFalse()
         {
             var command = new GeraVendaCommand(new Usuario("Daniel", "123456"));
-            command.Itens.Add(new VendaItem(new Produto("martelo", 7898124565, "desc...", 10.0m, 15.0m), 2));
+            command.Itens.Add(new VendaItem(new Produto("martelo", "7898124565", "desc...", 10.0m, 15.0m), 2));
             var handler = new GeraVendaHandler(new FakeRepository());
 
             var result = (GenericCommandResult)handler.Handle(command);
@@ -48,7 +48,7 @@ namespace BMS.Tests.HandlerTests
         public void DadoUmaVendaComPagamentoRetornaTrue()
         {
             var command = new GeraVendaCommand(new Usuario("Daniel", "123456"));
-            command.Itens.Add(new VendaItem(new Produto("martelo", 7898124565, "desc...", 10.0m, 15.0m), 2));
+            command.Itens.Add(new VendaItem(new Produto("martelo", "7898124565", "desc...", 10.0m, 15.0m), 2));
             command.Pagamentos.Add(new VendaPagamento(30.0m, Domain.Enums.EPagamentoTipo.Dinheiro));
             var handler = new GeraVendaHandler(new FakeRepository());
 

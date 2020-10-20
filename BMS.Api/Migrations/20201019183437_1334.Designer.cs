@@ -4,14 +4,16 @@ using BMS.Infra.Contexts;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 namespace BMS.Api.Migrations
 {
     [DbContext(typeof(DataContext))]
-    partial class DataContextModelSnapshot : ModelSnapshot
+    [Migration("20201019183437_1334")]
+    partial class _1334
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -103,7 +105,7 @@ namespace BMS.Api.Migrations
                         .HasColumnType("bit");
 
                     b.Property<string>("ProdutoCodigo")
-                        .HasColumnType("nvarchar(max)");
+                        .HasColumnType("nvarchar(450)");
 
                     b.Property<decimal>("Quantidade")
                         .HasColumnType("decimal(18,2)");
@@ -115,6 +117,8 @@ namespace BMS.Api.Migrations
                         .HasColumnType("uniqueidentifier");
 
                     b.HasKey("Id");
+
+                    b.HasIndex("ProdutoCodigo");
 
                     b.HasIndex("VendaId");
 
@@ -151,6 +155,10 @@ namespace BMS.Api.Migrations
 
             modelBuilder.Entity("BMS.Domain.Entities.VendaItem", b =>
                 {
+                    b.HasOne("BMS.Domain.Entities.Produto", "Produto")
+                        .WithMany()
+                        .HasForeignKey("ProdutoCodigo");
+
                     b.HasOne("BMS.Domain.Entities.Venda", null)
                         .WithMany("Itens")
                         .HasForeignKey("VendaId");

@@ -4,14 +4,16 @@ using BMS.Infra.Contexts;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 namespace BMS.Api.Migrations
 {
     [DbContext(typeof(DataContext))]
-    partial class DataContextModelSnapshot : ModelSnapshot
+    [Migration("20201020120247_11d3")]
+    partial class _11d3
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -85,10 +87,12 @@ namespace BMS.Api.Migrations
                     b.Property<decimal>("Total")
                         .HasColumnType("decimal(18,2)");
 
-                    b.Property<Guid>("UsuarioId")
+                    b.Property<Guid?>("UsuarioId")
                         .HasColumnType("uniqueidentifier");
 
                     b.HasKey("Id");
+
+                    b.HasIndex("UsuarioId");
 
                     b.ToTable("Vendas");
                 });
@@ -103,7 +107,7 @@ namespace BMS.Api.Migrations
                         .HasColumnType("bit");
 
                     b.Property<string>("ProdutoCodigo")
-                        .HasColumnType("nvarchar(max)");
+                        .HasColumnType("nvarchar(450)");
 
                     b.Property<decimal>("Quantidade")
                         .HasColumnType("decimal(18,2)");
@@ -115,6 +119,8 @@ namespace BMS.Api.Migrations
                         .HasColumnType("uniqueidentifier");
 
                     b.HasKey("Id");
+
+                    b.HasIndex("ProdutoCodigo");
 
                     b.HasIndex("VendaId");
 
@@ -149,8 +155,19 @@ namespace BMS.Api.Migrations
                     b.ToTable("Pagamentos");
                 });
 
+            modelBuilder.Entity("BMS.Domain.Entities.Venda", b =>
+                {
+                    b.HasOne("BMS.Domain.Entities.Usuario", "Usuario")
+                        .WithMany()
+                        .HasForeignKey("UsuarioId");
+                });
+
             modelBuilder.Entity("BMS.Domain.Entities.VendaItem", b =>
                 {
+                    b.HasOne("BMS.Domain.Entities.Produto", "Produto")
+                        .WithMany()
+                        .HasForeignKey("ProdutoCodigo");
+
                     b.HasOne("BMS.Domain.Entities.Venda", null)
                         .WithMany("Itens")
                         .HasForeignKey("VendaId");

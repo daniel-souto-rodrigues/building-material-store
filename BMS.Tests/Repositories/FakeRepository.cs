@@ -31,7 +31,7 @@ namespace BMS.Tests.Repositories
         {
         }
 
-        public void DeletaProduto(long codigo)
+        public void DeletaProduto(string codigo)
         {
         }
 
@@ -39,7 +39,7 @@ namespace BMS.Tests.Repositories
         {
         }
 
-        public Produto ProcuraProdutoPorCodigo(long codigo)
+        public Produto ProcuraProdutoPorCodigo(string codigo)
         {
             return null;
         }

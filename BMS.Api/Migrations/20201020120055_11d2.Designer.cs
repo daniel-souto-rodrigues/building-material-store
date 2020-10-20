@@ -10,8 +10,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace BMS.Api.Migrations
 {
     [DbContext(typeof(DataContext))]
-    [Migration("20201015123720_init")]
-    partial class init
+    [Migration("20201020120055_11d2")]
+    partial class _11d2
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -23,8 +23,11 @@ namespace BMS.Api.Migrations
 
             modelBuilder.Entity("BMS.Domain.Entities.Produto", b =>
                 {
-                    b.Property<int>("Codigo")
-                        .HasColumnType("int");
+                    b.Property<string>("Codigo")
+                        .HasColumnType("nvarchar(450)");
+
+                    b.Property<bool>("Deletado")
+                        .HasColumnType("bit");
 
                     b.Property<string>("Descricao")
                         .HasColumnType("nvarchar(max)");
@@ -49,6 +52,9 @@ namespace BMS.Api.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("uniqueidentifier");
 
+                    b.Property<bool>("Deletado")
+                        .HasColumnType("bit");
+
                     b.Property<string>("Login")
                         .HasColumnType("nvarchar(max)");
 
@@ -63,11 +69,13 @@ namespace BMS.Api.Migrations
             modelBuilder.Entity("BMS.Domain.Entities.Venda", b =>
                 {
                     b.Property<Guid>("Id")
-                        .ValueGeneratedOnAdd()
                         .HasColumnType("uniqueidentifier");
 
                     b.Property<DateTime>("DataDaVenda")
                         .HasColumnType("datetime2");
+
+                    b.Property<bool>("Deletado")
+                        .HasColumnType("bit");
 
                     b.Property<decimal>("Desconto")
                         .HasColumnType("decimal(18,2)");
@@ -78,12 +86,7 @@ namespace BMS.Api.Migrations
                     b.Property<decimal>("Total")
                         .HasColumnType("decimal(18,2)");
 
-                    b.Property<Guid?>("UsuarioId")
-                        .HasColumnType("uniqueidentifier");
-
                     b.HasKey("Id");
-
-                    b.HasIndex("UsuarioId");
 
                     b.ToTable("Vendas");
                 });
@@ -94,8 +97,11 @@ namespace BMS.Api.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("uniqueidentifier");
 
-                    b.Property<int?>("ProdutoCodigo")
-                        .HasColumnType("int");
+                    b.Property<bool>("Deletado")
+                        .HasColumnType("bit");
+
+                    b.Property<string>("ProdutoCodigo")
+                        .HasColumnType("nvarchar(450)");
 
                     b.Property<decimal>("Quantidade")
                         .HasColumnType("decimal(18,2)");
@@ -121,6 +127,9 @@ namespace BMS.Api.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("uniqueidentifier");
 
+                    b.Property<bool>("Deletado")
+                        .HasColumnType("bit");
+
                     b.Property<int>("Tipo")
                         .HasColumnType("int");
 
@@ -144,7 +153,9 @@ namespace BMS.Api.Migrations
                 {
                     b.HasOne("BMS.Domain.Entities.Usuario", "Usuario")
                         .WithMany()
-                        .HasForeignKey("UsuarioId");
+                        .HasForeignKey("Id")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
                 });
 
             modelBuilder.Entity("BMS.Domain.Entities.VendaItem", b =>

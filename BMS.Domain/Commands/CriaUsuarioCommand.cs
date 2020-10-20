@@ -23,8 +23,8 @@ namespace BMS.Domain.Commands
                 AdicionarNotificacao("Login","O login precisa ter no mínimo 3 e no máximo 30 caracteres");
             if(Senha == null)
                 AdicionarNotificacao("Senha","A senha é obrigatória");
-            if(Senha.Length < 6 || Senha.Length > 10)
-                AdicionarNotificacao("Senha","A senha precisa ter no mínimo 6 e no máximo 10 caracteres");
+            if(Senha.Length < 6 || Senha.Length >= 24)
+                AdicionarNotificacao("Senha","A senha precisa ter no mínimo 6 e no máximo 24 caracteres");
 
             return !Notificacoes.Any();
         }

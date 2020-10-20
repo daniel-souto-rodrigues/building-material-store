@@ -21,11 +21,5 @@ namespace BMS.Domain.Entities
         public decimal Troco { get; private set; }
         public EPagamentoTipo Tipo { get; private set; }
         public IList<string> Notificacoes { get; private set; }
-
-        public void CalculaTroco(decimal valorVenda)
-        {
-            if (valorVenda - Valor > 0)
-                Troco = valorVenda - Valor;
-        }
     }
 }

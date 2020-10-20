@@ -21,7 +21,7 @@ namespace BMS.Tests.QueriesTests
         public QueriesTests()
         {
             _usuario = new Usuario("Daniel", "12345678");
-            _produto = new Produto("Martelo de aço", 78921423311, "alguma desc...", 10.0m, 15.0m);
+            _produto = new Produto("Martelo de aço", "78921423311", "alguma desc...", 10.0m, 15.0m);
             _venda = new Venda(_usuario);
 
             _venda.Id = new Guid("b09374d0-8fb0-4cc6-8a06-90b3a2a26434");
@@ -38,7 +38,7 @@ namespace BMS.Tests.QueriesTests
         [TestMethod]
         public void DadaAConsultaDeUsuarioDeveRetornar1Resultado()
         {
-            var result = _produtos.AsQueryable().Where(ProdutoQueries.ProcuraProduto(78921423311));
+            var result = _produtos.AsQueryable().Where(ProdutoQueries.ProcuraProduto("78921423311"));
             Assert.AreEqual(1, result.Count());
         }
         

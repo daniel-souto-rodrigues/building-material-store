@@ -1,36 +1,34 @@
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using BMS.Domain.Entities;
+using BMS.Domain.Enums;
 using BMS.Shared.Commands.Contracts;
 using BMS.Shared.Entities;
+using BMS.Domain.ValueObjects;
 
 namespace BMS.Domain.Commands
 {
     public class GeraVendaCommand : Notificavel, ICommand
     {
-        private readonly IList<VendaItem> _itens = new List<VendaItem>();
-        private readonly IList<VendaPagamento> _pagamentos = new List<VendaPagamento>();
         public GeraVendaCommand() { }
-        public GeraVendaCommand(Usuario usuario)
+        public GeraVendaCommand(string usuario, ICollection<Item> itens, ICollection<Pagamento> pagamentos, decimal desconto)
         {
             Usuario = usuario;
-            Itens = _itens;
-            Pagamentos = _pagamentos;
-            Total = 0;
-            Desconto = 0;
+            Itens = itens.ToList();
+            Pagamentos = pagamentos.ToList();
+            Desconto = desconto;
         }
-        public Usuario Usuario { get; set; }
-        public IList<VendaItem> Itens { get; set; }
-        public IList<VendaPagamento> Pagamentos { get; set; }
-        public decimal Total { get; set; }
-        public decimal Desconto { get; set; }
+
+        public string Usuario { get; set; }
+        public decimal Desconto { get; private set; }
+        public List<Item> Itens { get; set; }
+        public List<Pagamento> Pagamentos { get; set; }
 
         public bool Validate()
         {
-            if (Usuario.Login == null)
+            if (Usuario == null)
                 AdicionarNotificacao("UsuarioLogin", "O usuario é requerido para efeturar uma venda");
-            if (Usuario.Senha == null)
-                AdicionarNotificacao("UsuarioSenha", "O usuario e senha são requeridos para efeturar uma venda");
 
             return !Notificacoes.Any();
         }

@@ -32,8 +32,11 @@ namespace BMS.Domain.Handlers
             //salva o usuario
             _repository.Cria(usuario);
 
+            //esconde a senha pra retorno
+            usuario.EscondeSenha();
+
             //retorna sucesso
-            return new GenericCommandResult(true, "usuario cadastrado com sucesso", command);
+            return new GenericCommandResult(true, "usuario cadastrado com sucesso", usuario);
         }
     }
 }

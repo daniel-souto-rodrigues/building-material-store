@@ -21,15 +21,17 @@ namespace BMS.Domain.Entities
             Usuario = usuario;
             Itens = _itens;
             Pagamentos = _pagamentos;
+            UsuarioId = usuario.Id;
         }
 
         public decimal Total { get; private set; }
         public decimal Desconto { get; private set; }
         public DateTime DataDaVenda { get; private set; }
-        public Usuario Usuario { get; private set; }
+        public virtual Usuario Usuario { get; private set; }
+        public Guid UsuarioId { get; private set; }
         public EVendaStatus Status { get; private set; }
-        public IList<VendaItem> Itens { get; private set; }
-        public IList<VendaPagamento> Pagamentos { get; private set; }
+        public virtual IList<VendaItem> Itens { get; private set; }
+        public virtual IList<VendaPagamento> Pagamentos { get; private set; }
 
         public void AdicionaItemAoCarrinho(VendaItem item)
         {
@@ -59,6 +61,7 @@ namespace BMS.Domain.Entities
                 soma += pagamento.Valor;
 
             CalculaTotal();
+            
 
             if (soma >= Total)
             {

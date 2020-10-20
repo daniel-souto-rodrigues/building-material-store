@@ -3,7 +3,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 namespace BMS.Api.Migrations
 {
-    public partial class init : Migration
+    public partial class _1333 : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
@@ -11,11 +11,12 @@ namespace BMS.Api.Migrations
                 name: "Produtos",
                 columns: table => new
                 {
-                    Codigo = table.Column<int>(nullable: false),
+                    Codigo = table.Column<string>(nullable: false),
                     Nome = table.Column<string>(nullable: true),
                     Descricao = table.Column<string>(nullable: true),
                     PrecoCusto = table.Column<decimal>(nullable: false),
-                    PrecoVenda = table.Column<decimal>(nullable: false)
+                    PrecoVenda = table.Column<decimal>(nullable: false),
+                    Deletado = table.Column<bool>(nullable: false)
                 },
                 constraints: table =>
                 {
@@ -27,6 +28,7 @@ namespace BMS.Api.Migrations
                 columns: table => new
                 {
                     Id = table.Column<Guid>(nullable: false),
+                    Deletado = table.Column<bool>(nullable: false),
                     Login = table.Column<string>(nullable: true),
                     Senha = table.Column<string>(nullable: true)
                 },
@@ -40,21 +42,22 @@ namespace BMS.Api.Migrations
                 columns: table => new
                 {
                     Id = table.Column<Guid>(nullable: false),
+                    Deletado = table.Column<bool>(nullable: false),
                     Total = table.Column<decimal>(nullable: false),
                     Desconto = table.Column<decimal>(nullable: false),
                     DataDaVenda = table.Column<DateTime>(nullable: false),
-                    UsuarioId = table.Column<Guid>(nullable: true),
-                    Status = table.Column<int>(nullable: false)
+                    Status = table.Column<int>(nullable: false),
+                    UsuarioId = table.Column<Guid>(nullable: false)
                 },
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_Vendas", x => x.Id);
                     table.ForeignKey(
-                        name: "FK_Vendas_Usuarios_UsuarioId",
-                        column: x => x.UsuarioId,
+                        name: "FK_Vendas_Usuarios_Id",
+                        column: x => x.Id,
                         principalTable: "Usuarios",
                         principalColumn: "Id",
-                        onDelete: ReferentialAction.Restrict);
+                        onDelete: ReferentialAction.Cascade);
                 });
 
             migrationBuilder.CreateTable(
@@ -62,9 +65,10 @@ namespace BMS.Api.Migrations
                 columns: table => new
                 {
                     Id = table.Column<Guid>(nullable: false),
+                    Deletado = table.Column<bool>(nullable: false),
                     Quantidade = table.Column<decimal>(nullable: false),
                     Valor = table.Column<decimal>(nullable: false),
-                    ProdutoCodigo = table.Column<int>(nullable: true),
+                    ProdutoCodigo = table.Column<string>(nullable: true),
                     VendaId = table.Column<Guid>(nullable: true)
                 },
                 constraints: table =>
@@ -89,6 +93,7 @@ namespace BMS.Api.Migrations
                 columns: table => new
                 {
                     Id = table.Column<Guid>(nullable: false),
+                    Deletado = table.Column<bool>(nullable: false),
                     Valor = table.Column<decimal>(nullable: false),
                     Troco = table.Column<decimal>(nullable: false),
                     Tipo = table.Column<int>(nullable: false),
@@ -119,11 +124,6 @@ namespace BMS.Api.Migrations
                 name: "IX_Pagamentos_VendaId",
                 table: "Pagamentos",
                 column: "VendaId");
-
-            migrationBuilder.CreateIndex(
-                name: "IX_Vendas_UsuarioId",
-                table: "Vendas",
-                column: "UsuarioId");
         }
 
         protected override void Down(MigrationBuilder migrationBuilder)

@@ -1,4 +1,3 @@
-using System;
 using System.Collections.Generic;
 using System.Linq;
 using BMS.Domain.Entities;
@@ -32,13 +31,20 @@ namespace BMS.Infra.Repositories
 
         public void Atualiza(Produto produto)
         {
-            _context.Entry<Produto>(produto).State = EntityState.Modified;
+            _context.Entry(produto).State = EntityState.Modified;
             _context.SaveChanges();
         }
 
         public void Cria(Venda venda)
         {
             _context.Add(venda);
+
+            // foreach(var item in venda.Itens)
+            //     _context.Add(item);            
+
+            // foreach(var pagamento in venda.Pagamentos)
+            //     _context.Add(pagamento);
+            
             _context.SaveChanges();
         }
 
@@ -51,14 +57,16 @@ namespace BMS.Infra.Repositories
         public void DeletaUsuario(string login)
         {
             var usuario = ProcuraUsuarioPorLogin(login);
-            _context.Remove(usuario);
+            usuario.Deletado = true;
+            _context.Update(usuario);
             _context.SaveChanges();
         }
 
-        public void DeletaProduto(long codigo)
+        public void DeletaProduto(string codigo)
         {
             var produto = ProcuraProdutoPorCodigo(codigo);
-            _context.Remove(produto);
+            produto.Deletado = true;
+            _context.Update(produto);
             _context.SaveChanges();
         }
 
@@ -68,7 +76,7 @@ namespace BMS.Infra.Repositories
             _context.SaveChanges();
         }
 
-        public Produto ProcuraProdutoPorCodigo(long codigo)
+        public Produto ProcuraProdutoPorCodigo(string codigo)
         {
             return _context.Produtos.AsNoTracking().FirstOrDefault(ProdutoQueries.ProcuraProduto(codigo));
         }

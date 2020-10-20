@@ -7,7 +7,7 @@ namespace BMS.Domain.Commands
     public class CadastraProdutoCommand : Notificavel, ICommand
     {
         public CadastraProdutoCommand() { }
-        public CadastraProdutoCommand(string nome, int codigo, string descricao, decimal precoCusto, decimal precoVenda)
+        public CadastraProdutoCommand(string nome, string codigo, string descricao, decimal precoCusto, decimal precoVenda)
         {
             Nome = nome;
             Codigo = codigo;
@@ -17,7 +17,7 @@ namespace BMS.Domain.Commands
         }
         
         public string Nome { get; set; }
-        public int Codigo { get; set; }
+        public string Codigo { get; set; }
         public string Descricao { get; set; }
         public decimal PrecoCusto { get; set; }
         public decimal PrecoVenda { get; set; }
@@ -31,7 +31,7 @@ namespace BMS.Domain.Commands
             if (Codigo.ToString().Length > 24)
                 AdicionarNotificacao("Codigo", "O codigo do produto pode ter no máximo 24 caracteres");
             if (PrecoCusto <= 0)
-                AdicionarNotificacao("Preco", "O preço de custo não pode ficar vazio");
+                AdicionarNotificacao("Preco", "O preço de custo não pode ser zero");
 
             return !Notificacoes.Any();
         }

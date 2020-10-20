@@ -1,4 +1,6 @@
+using System.Collections.Generic;
 using BMS.Domain.Commands;
+using BMS.Domain.Entities;
 using BMS.Domain.Repositories.Interfaces;
 using BMS.Shared.Commands;
 using BMS.Shared.Handlers.Contracts;
@@ -7,7 +9,7 @@ using Microsoft.AspNetCore.Mvc;
 namespace BMS.Api.Controllers
 {
     [ApiController]
-    [Route("v1/Venda")]
+    [Route("v1/sell")]
     public class VendaController : ControllerBase
     {
         private readonly IHandler<GeraVendaCommand> _handler;
@@ -23,12 +25,9 @@ namespace BMS.Api.Controllers
 
         [HttpPost]
         [Route("")]
-        public GenericCommandResult GeraVenda(
-            [FromBody] GeraVendaCommand command
-        )
+        public GenericCommandResult GeraVenda([FromBody] GeraVendaCommand command)
         {
             return (GenericCommandResult)_handler.Handle(command);
         }
-
     }
 }

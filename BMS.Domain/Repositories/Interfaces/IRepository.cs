@@ -13,8 +13,8 @@ namespace BMS.Domain.Repositories.Interfaces
         void DeletaUsuario(string login);
         void Cria(Produto produto);
         void Atualiza(Produto produto);
-        void DeletaProduto(long codigo);
-        Produto ProcuraProdutoPorCodigo(long codigo);
+        void DeletaProduto(string codigo);
+        Produto ProcuraProdutoPorCodigo(string codigo);
         Usuario ProcuraUsuarioPorLogin(string login);
         bool VerificaSeUsuarioExiste(string login);
         IEnumerable<Usuario> RetornaTodosUsuarios(); //test
